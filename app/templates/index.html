@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+<h1>{{ 'Hi, ' }}{{ current_user.username }}{{ '!' }}</h1>
+<a href="/dashboard/companies">Companies</a>
+<a href="/dashboard/investors">Investors</a>
+<a href="/dashboard/companiesDetails">CompaniesDetails</a>
+<a href="/dashboard/deals">Deals1</a>
+<a href="/dashboard/deals">Deals2</a>
+{% endblock %}
