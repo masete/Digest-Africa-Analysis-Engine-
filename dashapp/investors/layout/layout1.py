@@ -119,7 +119,7 @@ def layout(app):
                             dbc.CardBody(
                                 [
                                     html.H6("Countries", className="card-title"),
-                                    # html.H4(countries_count, className="card-title"),
+                                    html.H4(countries_count, className="card-title"),
                                 ]
                             ),
 

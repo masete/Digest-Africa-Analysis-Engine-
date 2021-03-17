@@ -32,4 +32,4 @@ def deals1_template():
 # @login_required
 # def deals2_template():
 #     return render_template("investors.html", dash_url=dash_deals2.url_base)
-#
+

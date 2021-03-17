@@ -19,7 +19,8 @@ def layout(app):
 
     company_deals_merged = pd.merge(left=company, right=deals, left_on='company_name', right_on='title')
     data = company_deals_merged[
-        ['company_name', 'business_model', 'number_of_operational_countries', 'number_of_investors_y', 'female_co_founder',
+        ['company_name', 'business_model', 'number_of_operational_countries', 'number_of_investors_y',
+         'female_co_founder',
          'attended_accelerator', 'amount_y']]
 
     df = data[['amount_y', 'attended_accelerator']].groupby(['attended_accelerator']).sum().reset_index()
@@ -30,7 +31,8 @@ def layout(app):
     )
 
     df = data[['amount_y', 'female_co_founder']].groupby(['female_co_founder']).sum().reset_index()
-    fig2 = px.pie(df, values='amount_y', names='female_co_founder', hole=.5, color_discrete_sequence=['#E58429', '#E3BA22'])
+    fig2 = px.pie(df, values='amount_y', names='female_co_founder', hole=.5, color_discrete_sequence=['#E58429',
+                                                                                                      '#E3BA22'])
     fig2.update_layout(
         title='Amount against female co-founder'
     )
