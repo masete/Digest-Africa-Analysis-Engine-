@@ -29,9 +29,9 @@ def investor_map():
     return render_template("investormap.html", dash_url=dash_invstormap.url_base)
 
 
-@bp.route("/investor_details")
+@bp.route("/investorDetails")
 @login_required
-def investor_details():
+def investorDetails():
     return render_template("investorDetails.html", dash_url=dash_investorDetails.url_base)
 
 
