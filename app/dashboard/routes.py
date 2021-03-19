@@ -4,10 +4,10 @@ from flask_login import login_required
 from dashapp import dash_companies, dash_investors, dash_companiesDetails, dash_deals1
 
 
-@bp.route("/companies")
-@login_required
-def companies_template():
-    return render_template("companies.html", dash_url=dash_companies.url_base)
+# @bp.route("/companies")
+# @login_required
+# def companies_template():
+#     return render_template("companies.html", dash_url=dash_companies.url_base)
 
 
 @bp.route("/companiesDetails")

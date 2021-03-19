@@ -1,20 +1,52 @@
-{% extends 'base.html' %}
+{% extends 'authbase.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<h1>{{ 'Sign In' }}</h1>
-<div class="row">
-    <div class="col-md-4">
-        {{ wtf.quick_form(form) }}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-sm-6">
+            <h1>{{ 'Sign In' }}</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+            <br>
+            <p>
+                {{ 'Forgot Your Password?' }}
+                <a href="{{ url_for('auth.reset_password_request') }}">{{ 'Click to Reset It' }}</a>
+            </p>
+            <p>
+                {{ 'Have no account?' }}
+                <a href="{{ url_for('auth.register') }}">{{ 'Click to Sigup Here' }}</a>
+            </p>
+        </div>
+        <div class="col-xs-6 col-sm-6">
+            <h3>Despite Covid19, 2020 was still a good year to raise funding</h3>
+            <h6>The second half of 2020 saw more funding raised by African startup companies compared to the first half
+                of 2020 (6.2%). Companies raised $440M across 189 rounds compared to $414M across 172 deals of H1 2020,
+                an increase in funding of $26M. The month that recorded the highest number of deals was September 2020
+                with 69 deals that had a value of  $161.7M which is a significant uptick from September 2019 that
+                recorded $30M across 36 rounds. The effects of the COVID-19 global pandemic had caused a drop in
+                the funding for startups on the continent in the first half the year, but as business slowly returned,
+                the funding gradually increased. Due to the lockdowns that were instituted to combat the COVID-19 in
+                the second quarter of 2020, there was an expected dip in funding as cautious investors, in the face of
+                economic uncertainty, continued to fund existing portfolio companies and/or sectors that were able to
+                weather the COVID-19 effects. With lockdowns easing and business resuming, there was an attendant
+                increase in funding in H2 which even saw some exits. This added to the continuing news of exits for the
+                African ecosystem that have made headlines over the course of 2020. This has included the $288 million
+                purchase of DPO Group, a payments services provider for African businesses, by Network International
+                and Stripe’s $200M acquisition of Nigeria’s
+                Paystack.<br><br>
+                <br>
+
+                Read More <a>https://digestafrica.com/digest-africa-h2-2020-brief</a>
+                <a>https://digestafrica.com/top-5-most-funded-sectors-2020</a>
+                <a>https://digestafrica.com/african-startups-that-have-used-grants-as-catalysts-for-funding</a>
+                <a>https://digestafrica.com/african-startups-that-have-used-grants-as-catalysts-for-funding</a>
+
+            </h6>
+        </div>
     </div>
 </div>
-<br>
-<p>
-    {{ 'Forgot Your Password?' }}
-    <a href="{{ url_for('auth.reset_password_request') }}">{{ 'Click to Reset It' }}</a>
-</p>
-<p>
-    {{ 'Have no account?' }}
-    <a href="{{ url_for('auth.register') }}">{{ 'Click to Sigup Here' }}</a>
-</p>
 {% endblock %}
