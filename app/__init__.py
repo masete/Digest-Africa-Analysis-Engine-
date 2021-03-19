@@ -10,7 +10,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from config import Config
 from dashapp import dash_companies, dash_investors, dash_companiesDetails, dash_deals1, dash_deals2,\
-    dash_invstormap
+    dash_invstormap, dash_investorDetails
 
 
 db = SQLAlchemy()
@@ -38,6 +38,7 @@ def create_app(config_class=Config):
     app = dash_deals1.add_dash(app)
     # app = dash_deals2.add_dash(app)
     app = dash_invstormap.add_dash(app)
+    app = dash_investorDetails.add_dash(app)
 
     from app.errors import bp as errors_bp
 
