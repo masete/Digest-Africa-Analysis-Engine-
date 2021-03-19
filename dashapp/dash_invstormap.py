@@ -1,14 +1,11 @@
 from dash import Dash
-
 from .dash_func import apply_layout_with_auth, _protect_dashviews
 
-# from dashapp.companies.callbacks.callbacks import register_callbacks
-
-from dashapp.companies.layout.companiesDetails import layout
+from dashapp.investors.layout.invstor_map_layout import layout
 import dash_bootstrap_components as dbc
 
 
-url_base = "/dash/companiesDetails/"
+url_base = "/dash/investorsmap/"
 
 
 def add_dash(server):
