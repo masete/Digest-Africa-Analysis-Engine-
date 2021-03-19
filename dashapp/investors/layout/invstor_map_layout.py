@@ -2,12 +2,9 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
-
-df = px.data.election()
-geojson = px.data.election_geojson()
-candidates = df.winner.unique()
 
 # import plotly.express as px
 
@@ -19,6 +16,9 @@ def layout(app):
     with app.server.app_context():
         entreprenuer = db.session.query(Entreprenuers)
         data = pd.read_sql(entreprenuer.statement, entreprenuer.session.bind)
+    df = px.data.election()
+    geojson = px.data.election_geojson()
+    candidates = df.winner.unique()
     df2 = px.data.gapminder().query("year==2007")
     # from app import app
 
