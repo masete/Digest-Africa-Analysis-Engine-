@@ -130,7 +130,7 @@ class Transactions(db.Model):
 
 
 class Investors(db.Model):
-    Id = db.Column(db.String(32), primary_key=True)
+    id = db.Column(db.String(32), primary_key=True)
     Investor = db.Column(db.String(200))
     length_of_post_description = db.Column(db.Float)
     post_description_cluster = db.Column(db.String(200))
