@@ -11,7 +11,7 @@ import jwt
 from app import db, login
 
 
-class User(UserMixin, db.Model):
+class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
@@ -20,7 +20,7 @@ class User(UserMixin, db.Model):
     token_expiration = db.Column(db.DateTime)
 
     def __repr__(self):
-        return "<User {}>".format(self.username)
+        return "<Users {}>".format(self.username)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -43,7 +43,7 @@ class User(UserMixin, db.Model):
             )["reset_password"]
         except:
             return
-        return User.query.get(id)
+        return Users.query.get(id)
 
     def to_dict(self, include_email=False):
         data = {"id": self.id, "username": self.username}
@@ -72,7 +72,7 @@ class User(UserMixin, db.Model):
 
     @staticmethod
     def check_token(token):
-        user = User.query.filter_by(token=token).first()
+        user = Users.query.filter_by(token=token).first()
         if user is None or user.token_expiration < datetime.utcnow():
             return None
         return user
@@ -122,7 +122,7 @@ class Transactions(db.Model):
     link = db.Column(db.String(200))
     country = db.Column(db.String(200))
     main_sector = db.Column(db.String(200))
-    number_of_investors = db.Column(db.Float)
+    number_of_investors = db.Column(db.String(200))
     source_name = db.Column(db.String(200))
 
     def __repr__(self):
@@ -168,5 +168,5 @@ class Investors(db.Model):
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return Users.query.get(int(id))
 
