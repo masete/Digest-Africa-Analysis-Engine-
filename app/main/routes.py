@@ -11,7 +11,7 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from app import db
-from app.models import User
+from app.models import Users
 from app.main import bp
 
 
