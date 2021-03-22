@@ -36,7 +36,7 @@ def create_app(config_class=Config):
     app = dash_investors.add_dash(app)
     app = dash_companiesDetails.add_dash(app)
     app = dash_deals1.add_dash(app)
-    # app = dash_deals2.add_dash(app)
+    app = dash_deals2.add_dash(app)
     app = dash_invstormap.add_dash(app)
     app = dash_investorDetails.add_dash(app)
 

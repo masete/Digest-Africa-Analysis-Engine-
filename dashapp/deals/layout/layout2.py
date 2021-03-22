@@ -17,6 +17,8 @@ def layout(app):
         company = pd.read_sql(companyx.statement, companyx.session.bind)
         deals = pd.read_sql(dealsx.statement, dealsx.session.bind)
 
+        deals.columns
+
     company_deals_merged = pd.merge(left=company, right=deals, left_on='company_name', right_on='title')
     data = company_deals_merged[
         ['company_name', 'business_model', 'number_of_operational_countries', 'number_of_investors_y',
