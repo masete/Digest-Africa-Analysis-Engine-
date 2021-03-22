@@ -41,7 +41,7 @@ def deals1_template():
     return render_template("deals1.html", dash_url=dash_deals1.url_base)
 
 
-@bp.route("/deals")
+@bp.route("/deals2")
 @login_required
 def deals2_template():
     return render_template("deals2.html", dash_url=dash_deals2.url_base)
