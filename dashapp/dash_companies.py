@@ -4,7 +4,7 @@ from .dash_func import apply_layout_with_auth, _protect_dashviews
 
 # from dashapp.companies.callbacks.callbacks import register_callbacks
 
-# from dashapp.companies.layout.layout1 import layout
+from dashapp.companies.layout.layout1 import layout
 import dash_bootstrap_components as dbc
 
 
