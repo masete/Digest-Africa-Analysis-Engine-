@@ -37,7 +37,7 @@ def layout(app):
         yaxis_title='company age'
     )
 
-    companies_line_plot = px.line(data, x="amount", y="company_name", title='Company name by amount')
+    # companies_line_plot = px.line(data, x="amount", y="company_name", title='Company name by amount')
 
     data.loc[(data['amount'].astype(float)) < 20.e6, 'company_name'] = 'Other companies'
     Companys_Pie_chart = px.pie(data, values='amount', names='company_name', title='amount by company name')
@@ -110,7 +110,7 @@ def layout(app):
             ]),
             dbc.Row([
                 dbc.Col(
-                    dcc.Graph(figure=companies_line_plot)
+                    # dcc.Graph(figure=companies_line_plot)
                 )
             ]),
             dbc.Row([
