@@ -32,7 +32,7 @@ def create_app(config_class=Config):
     mail.init_app(app)
     bootstrap.init_app(app)
 
-    # app = dash_companies.add_dash(app)
+    app = dash_companies.add_dash(app)
     app = dash_investors.add_dash(app)
     app = dash_companiesDetails.add_dash(app)
     app = dash_deals1.add_dash(app)

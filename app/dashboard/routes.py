@@ -5,10 +5,10 @@ from dashapp import dash_companies, dash_investors, dash_companiesDetails, dash_
     dash_invstormap, dash_investorDetails, dash_deals2
 
 
-# @bp.route("/companies")
-# @login_required
-# def companies_template():
-#     return render_template("companies.html", dash_url=dash_companies.url_base)
+@bp.route("/companies")
+@login_required
+def companies_template():
+    return render_template("companies.html", dash_url=dash_companies.url_base)
 
 
 @bp.route("/companiesDetails")
