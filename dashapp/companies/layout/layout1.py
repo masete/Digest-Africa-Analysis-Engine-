@@ -12,6 +12,9 @@ def layout(app):
     with app.server.app_context():
         entre = db.session.query(Entreprenuers)
         data = pd.read_sql(entre.statement, entre.session.bind)
+
+        dc = [i.lower() for i in list(data.columns)]
+        data.columns = dc
     data = data.sort_values(by='country_hq')
     countries = ['all'] + list(data.country_hq.unique())
 
