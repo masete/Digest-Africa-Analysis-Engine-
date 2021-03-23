@@ -23,7 +23,7 @@ def layout(app):
         dh = [i.lower() for i in list(deals.columns)]
         deals.columns = dh
 
-    company_deals_merged = pd.merge(left=company, right=deals, left_on=['title'], right_on=['company_name'])
+    company_deals_merged = pd.merge(left=deals, right=company, left_on=['company_name'], right_on=['title'])
     data = company_deals_merged[
         ['company_name', 'business_model', 'number_of_operational_countries', 'number_of_investors_y',
          'female_co_founder',
