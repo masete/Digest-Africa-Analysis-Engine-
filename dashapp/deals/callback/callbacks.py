@@ -15,6 +15,6 @@ def register_callbacks(app):
 
     @app.callback(
         dash.dependencies.Output('output-container-range-slider', 'children'),
-        [dash.dependencies.Input('my-range-slider', 'value')])
+        [dash.dependencies.Input('year-selector', 'value')])
     def update_output(value):
         return 'You have selected "{}"'.format(value)

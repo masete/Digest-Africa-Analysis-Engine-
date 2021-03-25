@@ -74,6 +74,19 @@ def layout(app):
             dbc.Row([
                 dbc.Col(html.H1(children='Transactions'), className="mb-2")
             ]),
+            html.Div([
+                dcc.RangeSlider(
+                    id='year-selector',
+                    min=2000,
+                    max=2021,
+                    dots=True,
+                    # step=0.5,
+                    value=[2018, 2019],
+                    marks={str(yr): str(yr) for yr in range(2000, 2021, 4)}
+
+                ),
+                html.Div(id='output-container-range-slider')
+            ]),
             dbc.Row([
                 dbc.Col(html.H6(children='Deals'), className="mb-4")
             ]),
