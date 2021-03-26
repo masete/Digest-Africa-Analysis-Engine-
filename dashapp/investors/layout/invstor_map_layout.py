@@ -20,7 +20,6 @@ def layout(app):
     geojson = px.data.election_geojson()
     candidates = df.winner.unique()
     df2 = px.data.gapminder().query("year==2007")
-    # from app import app
 
     fig = px.choropleth(df2, locations="iso_alpha",
                         color="lifeExp",  # lifeExp is a column of gapminder

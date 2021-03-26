@@ -81,7 +81,7 @@ def layout(app):
                     max=2021,
                     dots=True,
                     # step=0.5,
-                    value=[2018, 2019],
+                    value=[2018],
                     marks={str(yr): str(yr) for yr in range(2000, 2021, 4)}
 
                 ),
