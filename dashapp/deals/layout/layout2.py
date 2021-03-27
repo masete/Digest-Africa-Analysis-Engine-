@@ -49,10 +49,10 @@ def layout(app):
     fig3 = px.area(df, x="number_of_investors_y", y="amount_y",
                    title='Deal amount against number of investors on one deal.')
 
-    fig4 = go.Figure()
-    fig4.add_trace(go.Scatter(x=df.number_of_investors_y, y=df.amount_y, fill='tozeroy', line_color='#E58429',
-                              mode='lines'
-                              ))
+    # fig4 = go.Figure()
+    # fig4.add_trace(go.Scatter(x=df.number_of_investors_y, y=df.amount_y, fill='tozeroy', line_color='#E58429',
+    #                           mode='lines'
+    #                           ))
 
     df = data[['amount_y', 'number_of_operational_countries']].groupby(
         ['number_of_operational_countries']).sum().reset_index()
@@ -63,17 +63,17 @@ def layout(app):
                               mode='lines'
                               ))
 
-    df = data[['business_model', 'amount_y']].groupby(['business_model']).sum().reset_index()
-    df = df.sort_values(by='amount_y')
-    x = df.business_model
-    y = df.amount_y
+    # df = data[['business_model', 'amount_y']].groupby(['business_model']).sum().reset_index()
+    # df = df.sort_values(by='amount_y')
+    # x = df.business_model
+    # y = df.amount_y
     # Use the hovertext kw argument for hover text
-    fig6 = go.Figure(data=[go.Bar(x=x, y=y,
-                                  hovertext=['27% market share', '24% market share', '19% market share'])])
-    # Customize aspect
-    fig6.update_traces(marker_color='#E58429', marker_line_color='#BD2D28',
-                       marker_line_width=1.5, opacity=0.6)
-    fig6.update_layout(title_text='January 2013 Sales Report')
+    # fig6 = go.Figure(data=[go.Bar(x=x, y=y,
+    #                               hovertext=['27% market share', '24% market share', '19% market share'])])
+    # # Customize aspect
+    # fig6.update_traces(marker_color='#E58429', marker_line_color='#BD2D28',
+    #                    marker_line_width=1.5, opacity=0.6)
+    # fig6.update_layout(title_text='January 2013 Sales Report')
     print(df)
     layout = html.Div([
         dbc.Container([
@@ -88,12 +88,12 @@ def layout(app):
             ]),
             dbc.Row([
                 dbc.Col([
-                    dcc.Graph(figure=fig4)
+                    # dcc.Graph(figure=fig4)
                 ])
             ]),
             dbc.Row([
                 dbc.Col([
-                    dcc.Graph(figure=fig6)
+                    # dcc.Graph(figure=fig6)
                 ])
             ])
         ])

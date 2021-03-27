@@ -73,8 +73,7 @@ def layout(app):
                     className="w-80",
                     color="dark",
                     inverse=True
-                )])
-                ,
+                )]),
                 dbc.Col([dbc.Card(
                     dbc.CardBody(
                         [
@@ -86,8 +85,7 @@ def layout(app):
                     className="w-80",
                     color="dark",
                     inverse=True
-                )])
-                ,
+                )]),
                 dbc.Col([dbc.Card(
                     dbc.CardBody(
                         [
