@@ -39,7 +39,7 @@ def layout(app):
             ),
             html.Div(
                 id='table-paging-with-graph-container',
-                className="five columns"
+                className="ten columns"
             )
         ]
     )

@@ -15,6 +15,13 @@ def register_callbacks(app):
         dc = [i.lower() for i in list(df.columns)]
         df.columns = dc
 
+        df = df[['company_name', 'country_hq', 'last_funding_round_raised_type',
+                   'last_funding_round_raised_amount', 'largest_round', 'amount',
+                   'main_sector', 'company_age',
+                   'headquarter_city',
+                   'number_of_operational_countries', 'number_of_investors',
+                   'number_of_founders', 'female_co_founder', 'number_of_employees']]
+
     operators = [['ge ', '>='],
                  ['le ', '<='],
                  ['lt ', '<'],
