@@ -1,12 +1,7 @@
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
-import dash_table
-from flask_login import current_user
 import pandas as pd
-from collections import OrderedDict
-from sqlalchemy.exc import IntegrityError
-# import dashapp.transactions.layout
 
 
 def register_callbacks(app):
@@ -15,10 +10,10 @@ def register_callbacks(app):
 
     with app.server.app_context():
         entre = db.session.query(Entreprenuers)
-        data = pd.read_sql(entre.statement, entre.session.bind)
+        df = pd.read_sql(entre.statement, entre.session.bind)
 
-        dc = [i.lower() for i in list(data.columns)]
-        data.columns = dc
+        dc = [i.lower() for i in list(df.columns)]
+        df.columns = dc
 
     operators = [['ge ', '>='],
                  ['le ', '<='],
@@ -38,7 +33,7 @@ def register_callbacks(app):
 
                     value_part = value_part.strip()
                     v0 = value_part[0]
-                    if (v0 == value_part[-1] and v0 in ("'", '"', '`')):
+                    if v0 == value_part[-1] and v0 in ("'", '"', '`'):
                         value = value_part[1: -1].replace('\\' + v0, v0)
                     else:
                         try:
@@ -60,7 +55,7 @@ def register_callbacks(app):
         Input('table-paging-with-graph', "filter_query"))
     def update_table(page_current, page_size, sort_by, filter):
         filtering_expressions = filter.split(' && ')
-        dff = data
+        dff = df
         for filter_part in filtering_expressions:
             col_name, operator, filter_value = split_filter_part(filter_part)
 
