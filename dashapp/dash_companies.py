@@ -2,7 +2,7 @@ from dash import Dash
 
 from .dash_func import apply_layout_with_auth, _protect_dashviews
 
-# from dashapp.companies.callbacks.callbacks import register_callbacks
+from dashapp.companies.callbacks.callbacks import register_callbacks
 
 from dashapp.companies.layout.layout1 import layout
 import dash_bootstrap_components as dbc
@@ -25,7 +25,7 @@ def add_dash(server):
     )
     app.url_base_pathname = url_base
     apply_layout_with_auth(app, layout(app))
-    # register_callbacks(app)
+    register_callbacks(app)
     _protect_dashviews(app)
 
     return app.server
