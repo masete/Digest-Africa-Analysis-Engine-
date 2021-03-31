@@ -13,8 +13,8 @@ def layout(app):
 
         dc = [i.lower() for i in list(data.columns)]
         data.columns = dc
-    # data = data.sort_values(by='country_hq')
-    app.layout = html.Div(
+
+    layout = html.Div(
         className="row",
         children=[
             html.Div(
