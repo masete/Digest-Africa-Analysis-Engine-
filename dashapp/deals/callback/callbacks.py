@@ -17,5 +17,3 @@ def register_callbacks(app):
         # return 'You have selected "{}"'.format(value)
 
         dff = data[(data["post_date"] == value)]
-        
-
