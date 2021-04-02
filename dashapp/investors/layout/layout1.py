@@ -167,7 +167,7 @@ def layout(app):
             ]),
 
              dbc.Row([
-                 dbc.Col([ dbc.Card(
+                 dbc.Col([dbc.Card(
                             dbc.CardBody(
                                 [
                                     html.H6("All investors", className="card-title"),
@@ -177,11 +177,12 @@ def layout(app):
                             className="w-80",
                             color="dark",
                             inverse=True
-                )])
-               ,
+                    )
+                 ]),
                 dbc.Col([dbc.Card(
                             dbc.CardBody(
-                                [   html.H6("Active investors", className="card-title"),
+                                [
+                                    html.H6("Active investors", className="card-title"),
                                     html.H4(active_investors, className="card-title"),
 
                                 ]
@@ -190,8 +191,7 @@ def layout(app):
                              className="w-80",
                              color="dark",
                             inverse=True
-                )])
-                ,
+                )]),
                 dbc.Col([dbc.Card(
                             dbc.CardBody(
                                 [
@@ -203,8 +203,7 @@ def layout(app):
                              className="w-80",
                              color="dark",
                             inverse=True
-                )])
-                ,
+                )]),
                  dbc.Col([dbc.Card(
                             dbc.CardBody(
                                 [
@@ -215,9 +214,10 @@ def layout(app):
                             className="w-80",
                             color="dark",
                             inverse=True
-                )])
+                    )
+                 ])
 
-            ]),
+                ]),
             dbc.Row([
 
                 dbc.Col([dbc.Card(
@@ -298,27 +298,20 @@ def layout(app):
                 dbc.Col(
                     dcc.Graph(figure=investment_class))
             ]),
-            # dbc.Row([
-            #     dbc.Col(
-            #         dcc.Graph(figure=age))
-            # ])
-            #
-            # ]),
-        dbc.Row([
-            dbc.Col([
-                html.H5("Investors by their geographical focus"),
-                dcc.Graph(figure=fig)
-            ])
-            ,
 
-            dbc.Col([
-                html.H5("Investors by their headquarters"),
-                dcc.Graph(figure=fig2)
-            ]),
+            dbc.Row([
+                dbc.Col([
+                    html.H5("Investors by their geographical focus"),
+                    dcc.Graph(figure=fig)
+                ])
+                ,
+
+                dbc.Col([
+                    html.H5("Investors by their headquarters"),
+                    dcc.Graph(figure=fig2)
+                ]),
+            ])
         ])
     ])
-        ])
-
 
     return layout
-
