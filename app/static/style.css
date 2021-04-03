@@ -5,10 +5,7 @@ body {
     font-family: 'Verdana', sans-serif;
     font-size: 100%;
     color: #000;
-    background: #238989;
     margin: 0;
-    text-decoration: none;
-    list-style-type: none;
 }
 ul{
 	list-style: none;
