@@ -7,33 +7,9 @@ html {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Josefin Sans';
     background: #fafafa;
-    min-height:100%;
-    margin:0;
-    display:grid;
-    grid-template-rows:50px 1fr 50px;
-    grid-template-columns:250px 1fr;
-    grid-template-areas:
-    "top top"
-    "left right"
-    "bot bot";
-}
-#top {
-    grid-area:top;
-    background: linear-gradient(#F4F4F4,blue);
-}
-.left {
-    grid-area:left;
-    background: linear-gradient(#878787,red);
-}
-.right {
-    grid-area:right;
-    background: linear-gradient(#323232,green);
-}
-.bot {
-    grid-area:bot;
-    background: linear-gradient(#DCDCDC,purple);
+
 }
 
 p {

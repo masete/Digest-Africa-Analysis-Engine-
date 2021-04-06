@@ -5,11 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!--    {% block head %}-->
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
-<!--    {% endblock %}-->
 
-    <title>Collapsible sidebar using Bootstrap 4</title>
+    <title>Digest Africa</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,7 +31,7 @@
         {% block navbar %}
         <nav id="sidebar" class="left">
             <div class="sidebar-header">
-                <h3>Digest Africa</h3>
+                <h3> <a href="{{ url_for('main.index') }}">Digest Africa</a></h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -43,13 +40,13 @@
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Data Visualization</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a href="#">Company </a>
+                            <a href="/dashboard/companiesDetails">{{ 'Companies' }}</a>
                         </li>
                         <li>
-                            <a href="#">Investor</a>
+                            <a href="/dashboard/investors">{{ 'Investors' }}</a>
                         </li>
                         <li>
-                            <a href="#">Deals</a>
+                            <a href="/dashboard/deals1">{{ 'Deals' }}</a>
                         </li>
                     </ul>
                 </li>
@@ -78,10 +75,10 @@
 
             <ul class="list-unstyled CTAs">
 <!--                <li>-->
-<!--                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>-->
+<!--                    <a href="https://digestafrica.com/feed" class="download">Download source</a>-->
 <!--                </li>-->
                 <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Read our articles</a>
+                    <a href="https://digestafrica.com/feed" class="article">Read our articles</a>
                 </li>
             </ul>
         </nav>
@@ -107,7 +104,12 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Logout</a>
+                                {% if current_user.is_anonymous %}
+                                <li><a href="{{ url_for('auth.login') }}">{{ 'Login' }}</a></li>
+                                {% else %}
+                                <li><a href="{{ url_for('auth.logout') }}">{{ 'Logout' }}</a></li>
+                                {% endif %}
+<!--                                <a class="nav-link" href="#">Logout</a>-->
                             </li>
 <!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link" href="#">Page</a>-->
@@ -148,9 +150,9 @@
             });
         });
     </script>
-    <div class="bot">
-        <p>lkjs;;;;;;pvnhjfoinnnnnnnnnnnnnnnnevgk. sdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj. yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy. cnhfpyuerilayuiopeeuryripttiuberuitrpyabiwe4byiwuerignubgklbfklbj;g ; bbabbkbhbghdfj</p>
-    </div>
+<!--    <div class="bot">-->
+<!--        <p>lkjs;;;;;;pvnhjfoinnnnnnnnnnnnnnnnevgk. sdjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj. yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy. cnhfpyuerilayuiopeeuryripttiuberuitrpyabiwe4byiwuerignubgklbfklbj;g ; bbabbkbhbghdfj</p>-->
+<!--    </div>-->
 </body>
 
 </html>
