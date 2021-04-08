@@ -20,7 +20,9 @@ def layout(app):
     dc = [i.lower() for i in list(data1.columns)]
     data1.columns = dc
 
-    #Data table
+    dff1 = data1[['investor', 'investor_class', 'investment_stage', 'sector_focus', 'africa_portfolio']]
+
+    # Data table
     def generate_table(dataframe, max_rows=10):
         return html.Table([
             html.Thead(
@@ -32,6 +34,7 @@ def layout(app):
                 ]) for i in range(min(len(dataframe), max_rows))
             ])
         ])
+
     uniqueUnvestors = len(data1['investor'].apply(lambda x: x.lower()).unique())
     # key female
     key_female_people = data1["female_key_people"][data1["female_key_people"] == '1.0'].count()
@@ -310,6 +313,12 @@ def layout(app):
                     dcc.Graph(figure=investortype)),
                 dbc.Col(
                     dcc.Graph(figure=investment_class))
+            ]),
+            dbc.Row([
+                dbc.Col(children=[
+                    html.H4("Investors table"),
+                    generate_table(dff1)
+                ])
             ]),
 
             dbc.Row([
