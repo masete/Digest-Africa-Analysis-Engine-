@@ -16,10 +16,10 @@ def layout(app):
     with app.server.app_context():
         entreprenuer = db.session.query(Entreprenuers)
         data = pd.read_sql(entreprenuer.statement, entreprenuer.session.bind)
-    df = px.data.election()
-    geojson = px.data.election_geojson()
-    candidates = df.winner.unique()
-    df2 = px.data.gapminder().query("year==2007")
+        df = px.data.election()
+        geojson = px.data.election_geojson()
+        candidates = df.winner.unique()
+        df2 = px.data.gapminder().query("year==2007")
 
     fig = px.choropleth(df2, locations="iso_alpha",
                         color="lifeExp",  # lifeExp is a column of gapminder

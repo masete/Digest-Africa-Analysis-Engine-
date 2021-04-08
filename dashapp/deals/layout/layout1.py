@@ -3,15 +3,28 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 def layout(app):
     from app import db
-    from app.models import Transactions
+    from app.models import Transactions, Entreprenuers
 
     with app.server.app_context():
         transact = db.session.query(Transactions)
         data = pd.read_sql(transact.statement, transact.session.bind)
+
+        companyx = db.session.query(Transactions)
+        dealsx = db.session.query(Entreprenuers)
+
+        company = pd.read_sql(companyx.statement, companyx.session.bind)
+        deals = pd.read_sql(dealsx.statement, dealsx.session.bind)
+
+        dc = [i.lower() for i in list(company.columns)]
+        company.columns = dc
+
+        dh = [i.lower() for i in list(deals.columns)]
+        deals.columns = dh
 
     dc = [i.lower() for i in list(data.columns)]
     data.columns = dc
@@ -68,6 +81,48 @@ def layout(app):
         height=700
     )
 
+    # second layout
+
+    company_deals_merged = pd.merge(left=deals, right=company, left_on=['company_name'], right_on=['title'])
+    data1 = company_deals_merged[
+        ['company_name', 'business_model', 'number_of_operational_countries', 'number_of_investors_y',
+         'female_co_founder',
+         'attended_accelerator', 'amount_y']]
+
+    dff = data1[['amount_y', 'attended_accelerator']].groupby(['attended_accelerator']).sum().reset_index()
+    fig_pie = px.pie(dff, values='amount_y', names='attended_accelerator', hole=.5,
+                 color_discrete_sequence=['#8E6C8A', '#6B99A1'])
+    fig.update_layout(
+        title='Amount against accelerator attendance'
+    )
+
+    dff = data1[['amount_y', 'female_co_founder']].groupby(['female_co_founder']).sum().reset_index()
+    fig2_pie = px.pie(dff, values='amount_y', names='female_co_founder', hole=.5, color_discrete_sequence=['#E58429',
+                                                                                                       '#E3BA22'])
+    fig2_pie.update_layout(
+        title='Amount against female co-founder'
+    )
+
+    dff = data1[['amount_y', 'number_of_investors_y']].groupby(['number_of_investors_y']).sum().reset_index()
+    dff['number_of_investors_y'] = pd.to_numeric(dff['number_of_investors_y'])
+    df = dff.sort_values(by='number_of_investors_y')
+    fig3 = px.area(df, x="number_of_investors_y", y="amount_y",
+                   title='Deal amount against number of investors on one deal.')
+
+    # fig4 = go.Figure()
+    # fig4.add_trace(go.Scatter(x=df.number_of_investors_y, y=df.amount_y, fill='tozeroy', line_color='#E58429',
+    #                           mode='lines'
+    #                           ))
+
+    dff = data1[['amount_y', 'number_of_operational_countries']].groupby(
+        ['number_of_operational_countries']).sum().reset_index()
+    dff['number_of_operational_countries'] = pd.to_numeric(dff['number_of_operational_countries'])
+    dff = dff.sort_values(by='number_of_operational_countries')
+    fig5 = go.Figure()
+    fig5.add_trace(go.Scatter(x=dff.number_of_operational_countries, y=dff.amount_y, fill='tozeroy', line_color='#5C8100',
+                              mode='lines'
+                              ))
+
     # change to app.layout if running as single page app instead
     layout = html.Div([
         dbc.Container([
@@ -82,7 +137,7 @@ def layout(app):
                     dots=True,
                     # step=0.5,
                     value=[2018],
-                    marks={str(yr): str(yr) for yr in range(2000, 2021, 4)}
+                    marks={int(yr): str(yr) for yr in range(2000, 2021, 4)}
 
                 ),
                 html.Div(id='output-container-range-slider')
@@ -95,6 +150,7 @@ def layout(app):
                     dcc.Graph(figure=fig)
 
                 )
+
             ]),
             dbc.Row([
                 dbc.Col(
@@ -131,7 +187,16 @@ def layout(app):
                     dcc.Graph(figure=fig7)
 
                 )
-            ])
+            ]),
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(figure=fig_pie)
+                ]),
+                dbc.Col([
+                    dcc.Graph(figure=fig2_pie)
+                ])
+
+            ]),
 
         ])])
     return layout
