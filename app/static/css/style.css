@@ -2,14 +2,11 @@
     DEMO STYLE
 */
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-html {
-    height: 100%;
-}
+
 
 body {
-    font-family: 'Josefin Sans';
+    font-family: 'Poppins', sans-serif;
     background: #fafafa;
-
 }
 
 p {
