@@ -23,17 +23,19 @@ def layout(app):
     dff1 = data1[['investor', 'investor_class', 'investment_stage', 'sector_focus', 'africa_portfolio']]
 
     # Data table
-    def generate_table(dataframe, max_rows=10):
-        return html.Table([
-            html.Thead(
-                html.Tr([html.Th(col) for col in dataframe.columns])
-            ),
-            html.Tbody([
-                html.Tr([
-                    html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-                ]) for i in range(min(len(dataframe), max_rows))
-            ])
-        ])
+    def generate_table(dataframe, max_rows=5):
+        '''Given dataframe, return template generated using Dash components
+        '''
+        return html.Table(
+            # Header
+            [html.Tr([html.Th(col) for col in dataframe.columns])] +
+
+            # Body
+            [html.Tr([
+                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+            ]) for i in range(min(len(dataframe), max_rows))],
+            style={'width': '100%', 'display': 'inline-block', 'vertical-align': 'middle'}
+        )
 
     uniqueUnvestors = len(data1['investor'].apply(lambda x: x.lower()).unique())
     # key female
