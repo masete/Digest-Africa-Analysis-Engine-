@@ -19,6 +19,19 @@ def layout(app):
 
     dc = [i.lower() for i in list(data1.columns)]
     data1.columns = dc
+
+    #Data table
+    def generate_table(dataframe, max_rows=10):
+        return html.Table([
+            html.Thead(
+                html.Tr([html.Th(col) for col in dataframe.columns])
+            ),
+            html.Tbody([
+                html.Tr([
+                    html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                ]) for i in range(min(len(dataframe), max_rows))
+            ])
+        ])
     uniqueUnvestors = len(data1['investor'].apply(lambda x: x.lower()).unique())
     # key female
     key_female_people = data1["female_key_people"][data1["female_key_people"] == '1.0'].count()

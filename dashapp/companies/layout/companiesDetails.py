@@ -3,6 +3,7 @@ import plotly.express as px
 
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.graph_objects as go
 
 import dash_bootstrap_components as dbc
 
@@ -17,6 +18,26 @@ def layout(app):
 
         dc = [i.lower() for i in list(data.columns)]
         data.columns = dc
+
+    # dataTables
+    dff = data[['company_name', 'amount', 'main_sector', 'company_age', 'number_of_employees', 'female_co_founder']]
+    fig_dt = go.Figure(data=[go.Table(
+        header=dict(values=list(dff.columns),
+                    line_color='darkslategray',
+                    # fill_color='paleturquoise',
+                    # align='left'
+                    align=['left', 'center'],
+                    font=dict(color='black', size=12),
+                    height=40
+    ),
+        cells=dict(values=[dff.company_name, dff.amount, dff.main_sector, dff.company_age, dff.number_of_employees,
+                           dff.female_co_founder],
+                   line_color='darkslategray',
+                   fill=dict(color=['paleturquoise', 'white']),
+                   align=['left', 'center'],
+                   font_size=12,
+                   height=50))
+    ])
 
     # unique companies
     uniqueCompanies = len(data["company_name"].apply(lambda x: x.lower()).unique())
@@ -105,6 +126,13 @@ def layout(app):
                 dbc.Col(
                     dcc.Graph(figure=companies)
                 )
+            ]),
+            dbc.Row([
+                dbc.Col([
+                    html.H6("Our data showing some of companies, the age of the companies,"
+                            " those founded by ladies and ammount"),
+                    dcc.Graph(figure=fig_dt)
+                ])
             ]),
             dbc.Row([
                 dbc.Col(
