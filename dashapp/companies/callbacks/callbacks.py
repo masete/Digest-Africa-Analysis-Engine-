@@ -1,6 +1,7 @@
 from dash.dependencies import Input, Output
 import dash_html_components as html
 import dash_core_components as dcc
+import dash
 import pandas as pd
 
 
@@ -15,107 +16,86 @@ def register_callbacks(app):
         dc = [i.lower() for i in list(df.columns)]
         df.columns = dc
 
-        df = df[['company_name', 'country_hq', 'last_funding_round_raised_type',
-                   'last_funding_round_raised_amount', 'largest_round', 'amount',
-                   'main_sector', 'company_age',
-                   'headquarter_city',
-                   'number_of_operational_countries', 'number_of_investors',
-                   'number_of_founders', 'female_co_founder', 'number_of_employees']]
+        # @app.callback(
+        #     Output('datatable-interactivity', 'style_data_conditional'),
+        #     Input('datatable-interactivity', 'selected_columns')
+        # )
+        # def update_styles(selected_columns):
+        #     return [{
+        #         'if': {'column_id': i},
+        #         'background_color': '#D2F3FF'
+        #     } for i in selected_columns]
+        #
+        # @app.callback(
+        #     Output('datatable-interactivity-container', "children"),
+        #     Input('datatable-interactivity', "derived_virtual_data"),
+        #     Input('datatable-interactivity', "derived_virtual_selected_rows"))
+        # def update_graphs(rows, derived_virtual_selected_rows):
+            # When the table is first rendered, `derived_virtual_data` and
+            # `derived_virtual_selected_rows` will be `None`. This is due to an
+            # idiosyncrasy in Dash (unsupplied properties are always None and Dash
+            # calls the dependent callbacks when the component is first rendered).
+            # So, if `rows` is `None`, then the component was just rendered
+            # and its value will be the same as the component's dataframe.
+            # Instead of setting `None` in here, you could also set
+            # `derived_virtual_data=df.to_rows('dict')` when you initialize
+            # the component.
+            # if derived_virtual_selected_rows is None:
+            #     derived_virtual_selected_rows = []
+            #
+            # dff = df if rows is None else pd.DataFrame(rows)
+            #
+            # colors = ['#7FDBFF' if i in derived_virtual_selected_rows else '#0074D9'
+            #           for i in range(len(dff))]
 
-    operators = [['ge ', '>='],
-                 ['le ', '<='],
-                 ['lt ', '<'],
-                 ['gt ', '>'],
-                 ['ne ', '!='],
-                 ['eq ', '='],
-                 ['contains '],
-                 ['datestartswith ']]
+            # return [
+            #     dcc.Graph(
+            #         id=column,
+            #         figure={
+            #             "data": [
+            #                 {
+            #                     "x": dff["company_name"],
+            #                     "y": dff[column],
+            #                     "type": "bar",
+            #                     "marker": {"color": colors},
+            #                 }
+            #             ],
+            #             "layout": {
+            #                 "xaxis": {"automargin": True},
+            #                 "yaxis": {
+            #                     "automargin": True,
+            #                     "title": {"text": column}
+            #                 },
+            #                 "height": 250,
+            #                 "margin": {"t": 10, "l": 10, "r": 10},
+            #             },
+            #         },
+            #     )
+                # check if column exists - user may have deleted it
+                # If `column.deletable=False`, then you don't
+                # need to do this check.
+            #     for column in ["amount", "company_age", "Largest_round"] if column in dff
+            # ]
 
-    def split_filter_part(filter_part):
-        for operator_type in operators:
-            for operator in operator_type:
-                if operator in filter_part:
-                    name_part, value_part = filter_part.split(operator, 1)
-                    name = name_part[name_part.find('{') + 1: name_part.rfind('}')]
+        def generate_table(dataframe, max_rows=10):
+            return html.Table(
+                # Header
+                [html.Tr([html.Th(col) for col in dataframe.columns])] +
 
-                    value_part = value_part.strip()
-                    v0 = value_part[0]
-                    if v0 == value_part[-1] and v0 in ("'", '"', '`'):
-                        value = value_part[1: -1].replace('\\' + v0, v0)
-                    else:
-                        try:
-                            value = float(value_part)
-                        except ValueError:
-                            value = value_part
-
-                    # word operators need spaces after them in the filter string,
-                    # but we don't want these later
-                    return name, operator_type[0].strip(), value
-
-        return [None] * 3
-
-    @app.callback(
-        Output('table-paging-with-graph', "data"),
-        Input('table-paging-with-graph', "page_current"),
-        Input('table-paging-with-graph', "page_size"),
-        Input('table-paging-with-graph', "sort_by"),
-        Input('table-paging-with-graph', "filter_query"))
-    def update_table(page_current, page_size, sort_by, filter):
-        filtering_expressions = filter.split(' && ')
-        dff = df
-        for filter_part in filtering_expressions:
-            col_name, operator, filter_value = split_filter_part(filter_part)
-
-            if operator in ('eq', 'ne', 'lt', 'le', 'gt', 'ge'):
-                # these operators match pandas series operator method names
-                dff = dff.loc[getattr(dff[col_name], operator)(filter_value)]
-            elif operator == 'contains':
-                dff = dff.loc[dff[col_name].str.contains(filter_value)]
-            elif operator == 'datestartswith':
-                # this is a simplification of the front-end filtering logic,
-                # only works with complete fields in standard format
-                dff = dff.loc[dff[col_name].str.startswith(filter_value)]
-
-        if len(sort_by):
-            dff = dff.sort_values(
-                [col['id'] for col in sort_by],
-                ascending=[
-                    col['direction'] == 'asc'
-                    for col in sort_by
-                ],
-                inplace=False
+                # Body
+                [html.Tr([
+                    html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+                ]) for i in range(min(len(dataframe), max_rows))]
             )
 
-        return dff.iloc[
-               page_current * page_size: (page_current + 1) * page_size
-               ].to_dict('records')
+        @app.callback(
+            dash.dependencies.Output('table-container', 'children'),
+            [dash.dependencies.Input('dropdown', 'value')])
+        def display_table(dropdown_value):
+            if dropdown_value is None:
+                return generate_table(df)
 
-    @app.callback(
-            Output('table-paging-with-graph-container', "children"),
-            Input('table-paging-with-graph', "data"))
-    def update_graph(rows):
-        dff = pd.DataFrame(rows)
-        return html.Div(
-            [
-                dcc.Graph(
-                    id=column,
-                    figure={
-                        "data": [
-                            {
-                                "x": dff["company_name"],
-                                "y": dff[column] if column in dff else [],
-                                "type": "bar",
-                                "marker": {"color": "#0074D9"},
-                            }
-                        ],
-                        "layout": {
-                            "xaxis": {"automargin": True},
-                            "yaxis": {"automargin": True},
-                            "height": 250,
-                            "margin": {"t": 10, "l": 10, "r": 10},
-                        },
-                    },
-                )
-                for column in ["last_funding_round_raised_amount", "company_age", "number_of_employees"]
-            ]
-        )
+            dff1 = df[df.company_name.str.contains('|'.join(dropdown_value))]
+            return generate_table(dff1)
+
+        # app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})

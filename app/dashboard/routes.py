@@ -21,3 +21,8 @@ def investors_template():
 def deals1_template():
     return render_template("deals1.html", dash_url=dash_deals1.url_base)
 
+
+@bp.route("/companies_data")
+@login_required
+def companies_data_template():
+    return render_template("companies_data.html")

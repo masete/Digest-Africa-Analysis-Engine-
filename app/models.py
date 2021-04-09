@@ -166,7 +166,7 @@ class Investors(db.Model):
     def __repr__(self):
         return "<Investors %r>" % self.id
 
+
 @login.user_loader
 def load_user(id):
     return Users.query.get(int(id))
-
