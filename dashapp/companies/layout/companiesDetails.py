@@ -123,10 +123,7 @@ def layout(app):
             ]),
             dbc.Row([
                 dbc.Col([
-                    # html.H6("Our data showing some of companies, the age of the companies,"
-                    #         " those founded by ladies and ammount"),
-                    html.H4(children='Our data showing some of companies, the age of the companies,'
-                                     'those founded by ladies and ammount'),
+                    html.H6(children='Startup Companies data'),
                         dcc.Dropdown(id='dropdown', options=[
                             {'label': i, 'value': i} for i in data.company_name.unique()
                         ], multi=True, placeholder='Filter by state...'),

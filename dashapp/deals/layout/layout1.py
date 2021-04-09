@@ -162,6 +162,21 @@ def layout(app):
                     )
 
                 ),
+                dbc.Col(
+                    dcc.Dropdown(
+                        options=[
+                            {'label': i, 'value': i} for i in deals.country_hq.unique()
+                        ],
+                        # options=[
+                        #     {'label': 'New York City', 'value': 'NYC'},
+                        #     {'label': 'Montreal', 'value': 'MTL'},
+                        #     {'label': 'San Francisco', 'value': 'SF'}
+                        # ],
+                        # value=['MTL', 'NYC'],
+                        multi=True
+                    )
+
+                ),
             ]),
             dbc.Row([
                 dbc.Col(

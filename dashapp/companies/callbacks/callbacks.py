@@ -98,4 +98,4 @@ def register_callbacks(app):
             dff1 = df[df.company_name.str.contains('|'.join(dropdown_value))]
             return generate_table(dff1)
 
-        app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
+        # app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
