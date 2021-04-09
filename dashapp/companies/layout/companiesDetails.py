@@ -121,7 +121,18 @@ def layout(app):
                 )])
 
             ]),
-
+            dbc.Row([
+                dbc.Col([
+                    # html.H6("Our data showing some of companies, the age of the companies,"
+                    #         " those founded by ladies and ammount"),
+                    html.H4(children='Our data showing some of companies, the age of the companies,'
+                                     'those founded by ladies and ammount'),
+                        dcc.Dropdown(id='dropdown', options=[
+                            {'label': i, 'value': i} for i in data.company_name.unique()
+                        ], multi=True, placeholder='Filter by state...'),
+                        html.Div(id='table-container')
+                ])
+            ]),
 
             # dbc.Row([
             #     dbc.Col([
@@ -130,35 +141,36 @@ def layout(app):
             #         dcc.Graph(figure=fig_dt)
             #     ])
             # ]),
-            dbc.Row([
-                dbc.Col([
-                    html.H6("Try this"),
-                    html.Div([
-                        dash_table.DataTable(
-                            id='datatable-interactivity',
-                            columns=[
-                                {"name": i, "id": i, "deletable": True, "selectable": True} for i in data.columns],
-                            data=data.to_dict('records'),
-                            editable=True,
-                            filter_action="native",
-                            sort_action="native",
-                            sort_mode="multi",
-                            column_selectable="single",
-                            row_selectable="multi",
-                            row_deletable=True,
-                            selected_columns=[],
-                            selected_rows=[],
-                            page_action="native",
-                            page_current=0,
-                            page_size=10,),
-                        html.Div(id='datatable-interactivity-container')
-                    ])])
-            ]),
-            dbc.Row([
-                dbc.Col(
+            # dbc.Row([
+            #     dbc.Col([
+            #         html.H6("Our data showing some of companies, the age of the companies "
+            #                 "those founded by ladies and ammount"),
+            #         html.Div([
+            #             dash_table.DataTable(
+            #                 id='datatable-interactivity',
+            #                 columns=[
+            #                     {"name": i, "id": i, "deletable": True, "selectable": True} for i in data.columns],
+            #                 data=data.to_dict('records'),
+            #                 editable=True,
+            #                 # filter_action="native",
+            #                 # sort_action="native",
+            #                 sort_mode="multi",
+            #                 # column_selectable="single",
+            #                 row_selectable="multi",
+            #                 row_deletable=True,
+            #                 selected_columns=[],
+            #                 selected_rows=[],
+            #                 # page_action="native",
+            #                 page_current=0,
+            #                 page_size=20,),
+            #             html.Div(id='datatable-interactivity-container')
+            #         ])])
+            # ]),
+            # dbc.Row([
+            #     dbc.Col(
                     # dcc.Graph(figure=companies_line_plot)
-                )
-            ]),
+            #     )
+            # ]),
             dbc.Row([
                 dbc.Col(
                     dcc.Graph(figure=Companys_Pie_chart)
