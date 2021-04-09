@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-<!--{% block title %}  Companies Data {% endblock title %}-->
+{% block title %}  Companies Data {% endblock title %}
  {% block head %}
  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 {% endblock head %}
-<!--{% block stylesheets %}-->
-<!--{{ super() }}-->
-<!--{% endblock stylesheets %}-->
-{% block app_content %}
-        <table id="table_id" class="display">-->
+{% block stylesheets %}
+{{ super() }}
+{% endblock stylesheets %}
+<!--{% block app_content %}-->
+        <table id="table_id" class="display">
             <thead>
                 <tr>
                     <th>Column 1</th>
@@ -27,8 +27,8 @@
                 </tr>
             </tbody>
         </table>
-{% endblock app_content %}
+<!--{% endblock app_content %}-->
 
-<!--{% block javascripts %}-->
-<!--{{ super()}}-->
-<!--{% endblock javascripts %}-->
+{% block javascripts %}
+{{ super()}}
+{% endblock javascripts %}
