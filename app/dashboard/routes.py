@@ -1,7 +1,7 @@
 from . import bp
 from flask import render_template
 from flask_login import login_required
-from dashapp import dash_investors, dash_companiesDetails, dash_deals1
+from dashapp import dash_investors, dash_companiesDetails, dash_deals1, dash_tables
 
 
 @bp.route("/companiesDetails")
@@ -25,4 +25,4 @@ def deals1_template():
 @bp.route("/companies_data")
 @login_required
 def companies_data_template():
-    return render_template("companies_data.html")
+    return render_template("companies_data.html", dash_url=dash_tables.url_base)
