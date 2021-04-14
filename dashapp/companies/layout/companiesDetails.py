@@ -39,6 +39,11 @@ def layout(app):
     #                height=50))
     # ])
 
+    dfff = data[['company_name', 'amount', 'main_sector', 'company_age', 'number_of_employees', 'number_of_investors']]
+    dfff.rename(columns={'company_name': 'CompanyName', 'amount': 'Amount', 'main_sector': 'Main Sector',
+                         'company_age' : 'Company Age', 'number_of_employees': 'Number Of Employees',
+                         'number_of_investors': 'Number of Investors'}, inplace=True)
+
     # unique companies
     uniqueCompanies = len(data["company_name"].apply(lambda x: x.lower()).unique())
 
@@ -125,8 +130,8 @@ def layout(app):
                 dbc.Col([
                     html.H6(children='Startup Companies data'),
                         dcc.Dropdown(id='dropdown', options=[
-                            {'label': i, 'value': i} for i in data.company_name.unique()
-                        ], multi=True, placeholder='Filter by state...'),
+                            {'label': i, 'value': i} for i in dfff.CompanyName.unique()
+                        ], multi=True, placeholder='Filter by companies...'),
                         html.Div(id='table-container')
                 ])
             ]),

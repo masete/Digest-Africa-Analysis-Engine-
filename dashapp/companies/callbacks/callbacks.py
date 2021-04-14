@@ -16,6 +16,10 @@ def register_callbacks(app):
         dc = [i.lower() for i in list(df.columns)]
         df.columns = dc
 
+        dffff = df[['company_name', 'amount', 'main_sector', 'company_age', 'number_of_employees', 'number_of_investors']]
+        dffff.rename(columns={'company_name': 'CompanyName', 'amount': 'Amount', 'main_sector': 'Main Sector',
+                             'company_age': 'Company Age', 'number_of_employees': 'Number Of Employees',
+                             'number_of_investors': 'Number of Investors'}, inplace=True)
         # @app.callback(
         #     Output('datatable-interactivity', 'style_data_conditional'),
         #     Input('datatable-interactivity', 'selected_columns')
@@ -95,7 +99,7 @@ def register_callbacks(app):
             if dropdown_value is None:
                 return generate_table(df)
 
-            dff1 = df[df.company_name.str.contains('|'.join(dropdown_value))]
+            dff1 = dffff[dffff.CompanyName.str.contains('|'.join(dropdown_value))]
             return generate_table(dff1)
 
         # app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP.css"})
