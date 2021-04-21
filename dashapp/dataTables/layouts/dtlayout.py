@@ -14,6 +14,9 @@ def layout(app):
         data = pd.read_sql(transact.statement, transact.session.bind)
         df = data
 
+        df['id'] = df['iso_alpha3']
+        df.set_index('id', inplace=True, drop=False)
+
     layout = html.Div([
         dbc.Container([
 

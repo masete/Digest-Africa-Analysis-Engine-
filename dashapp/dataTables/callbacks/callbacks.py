@@ -25,6 +25,9 @@ def register_callbacks(app):
         dc = [i.lower() for i in list(df.columns)]
         df.columns = dc
 
+        df['id'] = df['iso_alpha3']
+        df.set_index('id', inplace=True, drop=False)
+
     @app.callback(
         Output(component_id='bar-container', component_property='children'),
         [Input(component_id='datatable-interactivity', component_property="derived_virtual_data"),
