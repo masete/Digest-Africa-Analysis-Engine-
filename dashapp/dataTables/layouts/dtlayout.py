@@ -14,7 +14,7 @@ def layout(app):
         data = pd.read_sql(transact.statement, transact.session.bind)
         df = data
 
-        df['id'] = df['iso_alpha3']
+        # df['id'] = df['iso_alpha3']
         df.set_index('id', inplace=True, drop=False)
 
     layout = html.Div([
@@ -45,9 +45,15 @@ def layout(app):
                     page_action="native",  # all data is passed to the table up-front or not ('none')
                     page_current=0,  # page number that user is on
                     page_size=6,  # number of rows visible per page
-                    style_cell={  # ensure adequate header width when text is shorter than cell's text
-                        'minWidth': 95, 'maxWidth': 95, 'width': 95
-                    },
+                    css=[{'selector': '.dash-cell div.dash-cell-value',
+                          'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;'}],
+                    fixed_columns=2,
+                    style_table={'maxWidth': '1500px'},
+                    # row_selectable="multi",
+                    style_cell={"fontFamily": "Arial", "size": 10, 'textAlign': 'left'},
+                    # style_cell={  # ensure adequate header width when text is shorter than cell's text
+                    #     'minWidth': 95, 'maxWidth': 95, 'width': 95
+                    # },
                     style_cell_conditional=[  # align text columns to left. By default they are aligned to right
                         {
                             'if': {'column_id': c},

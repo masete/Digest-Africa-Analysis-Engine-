@@ -1,16 +1,7 @@
-from dash.dependencies import Input, Output
-import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import plotly.express as px
-import plotly.graph_objs as go
-from plotly import tools
 
-from datetime import datetime as dt
-from datetime import date, timedelta
-from datetime import datetime
-
-import numpy as np
 import pandas as pd
 
 
@@ -25,7 +16,7 @@ def register_callbacks(app):
         dc = [i.lower() for i in list(df.columns)]
         df.columns = dc
 
-        df['id'] = df['iso_alpha3']
+        # df['id'] = df['iso_alpha3']
         df.set_index('id', inplace=True, drop=False)
 
     @app.callback(
@@ -75,35 +66,35 @@ def register_callbacks(app):
 
     # -------------------------------------------------------------------------------------
     # Create choropleth map
-    @app.callback(
-        Output(component_id='choromap-container', component_property='children'),
-        [Input(component_id='datatable-interactivity', component_property="derived_virtual_data"),
-         Input(component_id='datatable-interactivity', component_property='derived_virtual_selected_rows')]
-    )
-    def update_map(all_rows_data, slctd_row_indices):
-        dff = pd.DataFrame(all_rows_data)
-
-        # highlight selected countries on map
-        borders = [5 if i in slctd_row_indices else 1
-                   for i in range(len(dff))]
-
-        if "iso_alpha3" in dff and "internet daily" in dff and "country" in dff:
-            return [
-                dcc.Graph(id='choropleth',
-                          style={'height': 700},
-                          figure=px.choropleth(
-                              data_frame=dff,
-                              locations="iso_alpha3",
-                              scope="africa",
-                              color="internet daily",
-                              title="% of Pop that Uses Internet Daily",
-                              template='plotly_dark',
-                              hover_data=['country', 'internet daily'],
-                          ).update_layout(showlegend=False, title=dict(font=dict(size=28), x=0.5, xanchor='center'))
-                          .update_traces(marker_line_width=borders, hovertemplate="<b>%{customdata[0]}</b><br><br>" +
-                                                                                  "%{customdata[1]}" + "%")
-                          )
-            ]
+    # @app.callback(
+    #     Output(component_id='choromap-container', component_property='children'),
+    #     [Input(component_id='datatable-interactivity', component_property="derived_virtual_data"),
+    #      Input(component_id='datatable-interactivity', component_property='derived_virtual_selected_rows')]
+    # )
+    # def update_map(all_rows_data, slctd_row_indices):
+    #     dff = pd.DataFrame(all_rows_data)
+    #
+    #     # highlight selected countries on map
+    #     borders = [5 if i in slctd_row_indices else 1
+    #                for i in range(len(dff))]
+    #
+    #     if "iso_alpha3" in dff and "internet daily" in dff and "country" in dff:
+    #         return [
+    #             dcc.Graph(id='choropleth',
+    #                       style={'height': 700},
+    #                       figure=px.choropleth(
+    #                           data_frame=dff,
+    #                           locations="iso_alpha3",
+    #                           scope="africa",
+    #                           color="internet daily",
+    #                           title="% of Pop that Uses Internet Daily",
+    #                           template='plotly_dark',
+    #                           hover_data=['country', 'internet daily'],
+    #                       ).update_layout(showlegend=False, title=dict(font=dict(size=28), x=0.5, xanchor='center'))
+    #                       .update_traces(marker_line_width=borders, hovertemplate="<b>%{customdata[0]}</b><br><br>" +
+    #                                                                               "%{customdata[1]}" + "%")
+    #                       )
+    #         ]
 
     # -------------------------------------------------------------------------------------
     # Highlight selected column
