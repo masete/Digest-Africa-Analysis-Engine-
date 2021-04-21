@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly.express as px
-
+import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
@@ -20,24 +20,29 @@ def layout(app):
         data.columns = dc
 
     # dataTables
-    dff = data[['company_name', 'amount', 'main_sector', 'company_age', 'number_of_employees', 'female_co_founder']]
-    fig_dt = go.Figure(data=[go.Table(
-        header=dict(values=list(dff.columns),
-                    line_color='darkslategray',
-                    # fill_color='paleturquoise',
-                    # align='left'
-                    align=['left', 'center'],
-                    font=dict(color='black', size=12),
-                    height=40
-    ),
-        cells=dict(values=[dff.company_name, dff.amount, dff.main_sector, dff.company_age, dff.number_of_employees,
-                           dff.female_co_founder],
-                   line_color='darkslategray',
-                   fill=dict(color=['paleturquoise', 'white']),
-                   align=['left', 'center'],
-                   font_size=12,
-                   height=50))
-    ])
+    # dff = data[['company_name', 'amount', 'main_sector', 'company_age', 'number_of_employees', 'female_co_founder']]
+    # fig_dt = go.Figure(data=[go.Table(
+    #     header=dict(values=list(dff.columns),
+    #                 line_color='darkslategray',
+    #                 # fill_color='paleturquoise',
+    #                 # align='left'
+    #                 align=['left', 'center'],
+    #                 font=dict(color='black', size=12),
+    #                 height=40
+    # ),
+    #     cells=dict(values=[dff.company_name, dff.amount, dff.main_sector, dff.company_age, dff.number_of_employees,
+    #                        dff.female_co_founder],
+    #                line_color='darkslategray',
+    #                fill=dict(color=['paleturquoise', 'white']),
+    #                align=['left', 'center'],
+    #                font_size=12,
+    #                height=50))
+    # ])
+
+    dfff = data[['company_name', 'amount', 'main_sector', 'company_age', 'number_of_employees', 'number_of_investors']]
+    dfff.rename(columns={'company_name': 'CompanyName', 'amount': 'Amount', 'main_sector': 'Main Sector',
+                         'company_age' : 'Company Age', 'number_of_employees': 'Number Of Employees',
+                         'number_of_investors': 'Number of Investors'}, inplace=True)
 
     # unique companies
     uniqueCompanies = len(data["company_name"].apply(lambda x: x.lower()).unique())
@@ -121,27 +126,61 @@ def layout(app):
                 )])
 
             ]),
-
-            dbc.Row([
-                dbc.Col(
-                    dcc.Graph(figure=companies)
-                )
-            ]),
             dbc.Row([
                 dbc.Col([
-                    html.H6("Our data showing some of companies, the age of the companies,"
-                            " those founded by ladies and ammount"),
-                    dcc.Graph(figure=fig_dt)
+                    html.H6(children='Startup Companies data'),
+                        dcc.Dropdown(id='dropdown', options=[
+                            {'label': i, 'value': i} for i in dfff.CompanyName.unique()
+                        ], multi=True, placeholder='Filter by companies...'),
+                        html.Div(id='table-container')
                 ])
             ]),
-            dbc.Row([
-                dbc.Col(
+
+            # dbc.Row([
+            #     dbc.Col([
+            #         html.H6("Our data showing some of companies, the age of the companies,"
+            #                 " those founded by ladies and ammount"),
+            #         dcc.Graph(figure=fig_dt)
+            #     ])
+            # ]),
+            # dbc.Row([
+            #     dbc.Col([
+            #         html.H6("Our data showing some of companies, the age of the companies "
+            #                 "those founded by ladies and ammount"),
+            #         html.Div([
+            #             dash_table.DataTable(
+            #                 id='datatable-interactivity',
+            #                 columns=[
+            #                     {"name": i, "id": i, "deletable": True, "selectable": True} for i in data.columns],
+            #                 data=data.to_dict('records'),
+            #                 editable=True,
+            #                 # filter_action="native",
+            #                 # sort_action="native",
+            #                 sort_mode="multi",
+            #                 # column_selectable="single",
+            #                 row_selectable="multi",
+            #                 row_deletable=True,
+            #                 selected_columns=[],
+            #                 selected_rows=[],
+            #                 # page_action="native",
+            #                 page_current=0,
+            #                 page_size=20,),
+            #             html.Div(id='datatable-interactivity-container')
+            #         ])])
+            # ]),
+            # dbc.Row([
+            #     dbc.Col(
                     # dcc.Graph(figure=companies_line_plot)
-                )
-            ]),
+            #     )
+            # ]),
             dbc.Row([
                 dbc.Col(
                     dcc.Graph(figure=Companys_Pie_chart)
+                )
+            ]),
+            dbc.Row([
+                dbc.Col(
+                    dcc.Graph(figure=companies)
                 )
             ]),
         ])])
