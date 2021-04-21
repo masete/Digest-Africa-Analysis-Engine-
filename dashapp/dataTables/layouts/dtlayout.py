@@ -12,8 +12,7 @@ def layout(app):
     with app.server.app_context():
         transact = db.session.query(Transactions)
         data = pd.read_sql(transact.statement, transact.session.bind)
-
-        dt_columns = data.columns
+        df = data
 
     layout = html.Div([
         dbc.Container([
@@ -23,32 +22,47 @@ def layout(app):
             ]),
             dbc.Row([
                 dash_table.DataTable(
-                    id='datatable-birst-category',
-                    columns=[{"name": i, "id": i, 'deletable': True} for i in dt_columns],
-                    editable=True,
-                    fixed_columns=2,
-                    style_table={'maxWidth': '1500px'},
-                    row_selectable="multi",
-                    selected_rows=[0],
-                    style_cell={"fontFamily": "Arial", "size": 10, 'textAlign': 'left'},
-                    css=[{'selector': '.dash-cell div.dash-cell-value', 'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;'}],
-                    style_cell_conditional=[{'if': {'row_index': 'odd'}, 'backgroundColor': '#D5DBDB'}]
-                          # + [{'if': {'column_id': c}, 'backgroundColor': '#EAFAF1'} for c in ['Spend TY', 'Spend - LP', 'Spend PoP (Abs)', 'Spend PoP (%)', 'Spend LY', 'Spend YoY (%)',]]
-                          # + [{'if': {'column_id': c, 'row_index': 'odd'}, 'backgroundColor': '#D5F5E3'} for c in ['Spend TY', 'Spend - LP', 'Spend PoP (Abs)', 'Spend PoP (%)', 'Spend LY', 'Spend YoY (%)',]]
-                          # + [{'if': {'column_id': c}, 'backgroundColor': '#FEF9E7'} for c in ['Sessions - TY', 'Sessions - LP', 'Sessions - LY', 'Sessions PoP (%)', 'Sessions YoY (%)',]]
-                          # + [{'if': {'column_id': c, 'row_index': 'odd'}, 'backgroundColor': '#FCF3CF'} for c in ['Sessions - TY', 'Sessions - LP', 'Sessions - LY', 'Sessions PoP (%)', 'Sessions YoY (%)',]]
-                          # + [{'if': {'column_id': c}, 'backgroundColor': '#EBF5FB'} for c in ['Bookings - TY', 'Bookings - LP', 'Bookings PoP (%)', 'Bookings PoP (Abs)', 'Bookings - LY', 'Bookings YoY (%)', 'Bookings YoY (Abs)',]]
-                          # + [{'if': {'column_id': c, 'row_index': 'odd'}, 'backgroundColor': '#D6EAF8'} for c in ['Bookings - TY', 'Bookings - LP', 'Bookings PoP (%)', 'Bookings PoP (Abs)', 'Bookings - LY', 'Bookings YoY (%)', 'Bookings YoY (Abs)',]]
-                          # + [{'if': {'column_id': c},'backgroundColor': '#F4ECF7'} for c in ['CVR - TY', 'CVR - LP', 'CVR PoP (Abs)','CVR - LY',  'CVR YoY (Abs)', 'CVR PoP (%)', 'CVR YoY (%)']]
-                          # + [{'if': {'column_id': c, 'row_index': 'odd'}, 'backgroundColor': '#E8DAEF' } for c in ['CVR - TY', 'CVR - LP', 'CVR PoP (Abs)','CVR - LY',  'CVR YoY (Abs)', 'CVR PoP (%)', 'CVR YoY (%)']]
-                          # + [{'if': {'column_id': c}, 'backgroundColor': '#FDEDEC' } for c in ['CPA - TY', 'CPA - LP', 'CPA PoP (Abs)', 'CPA - LY', 'CPA YoY (Abs)','CPA PoP (%)', 'CPA YoY (%)' ]]
-                          # + [{'if': {'column_id': c, 'row_index': 'odd'}, 'backgroundColor': '#FADBD8' } for c in ['CPA - TY', 'CPA - LP', 'CPA PoP (Abs)', 'CPA - LY', 'CPA YoY (Abs)', 'CPA PoP (%)', 'CPA YoY (%)']]
-                          # + [{'if': {'column_id': c},'backgroundColor': '#F6DDCC'} for c in ['CPS - TY', 'CPS - LP', 'CPS PoP (Abs)', 'CPS - LY',  'CPS YoY (Abs)', 'CPS PoP (%)', 'CPA YoY (%)']]
-                          # + [{'if': {'column_id': c, 'row_index': 'odd'}, 'backgroundColor': '#E59866' } for c in ['CPS - TY', 'CPS - LP', 'CPS PoP (Abs)', 'CPS - LY',  'CPS YoY (Abs)', 'CPS PoP (%)', 'CPA YoY (%)']]
-                          # + [{'if': {'column_id': c}, 'minWidth': '0px', 'maxWidth': '80px', 'whiteSpace': 'normal'} for c in ['Spend TY', 'Spend - LP', 'Spend PoP (Abs)', 'Spend PoP (%)', 'Spend LY', 'Spend YoY (%)', 'Sessions - TY', 'Sessions - LP', 'Sessions - LY', 'Sessions PoP (%)',
-                          # 'Sessions YoY (%)', 'Bookings - TY', 'Bookings - LP', 'Bookings PoP (%)', 'Bookings PoP (Abs)', 'Bookings - LY', 'Bookings YoY (%)', 'Bookings YoY (Abs)', 'Revenue - TY', 'Revenue - LP', 'Revenue PoP (Abs)', 'Revenue PoP (%)', 'Revenue - LY', 'Revenue YoY (%)', 'Revenue YoY (Abs)',]]
-                    ),
-                ], className=" twelve columns"),
+                    id='datatable-interactivity',
+                    columns=[
+                        {"name": i, "id": i, "deletable": True, "selectable": True, "hideable": True}
+                        if i == "iso_alpha3" or i == "year" or i == "id"
+                        else {"name": i, "id": i, "deletable": True, "selectable": True}
+                        for i in df.columns
+                    ],
+                    data=df.to_dict('records'),  # the contents of the table
+                    editable=True,  # allow editing of data inside all cells
+                    filter_action="native",  # allow filtering of data by user ('native') or not ('none')
+                    sort_action="native",  # enables data to be sorted per-column by user or not ('none')
+                    sort_mode="single",  # sort across 'multi' or 'single' columns
+                    column_selectable="multi",  # allow users to select 'multi' or 'single' columns
+                    row_selectable="multi",  # allow users to select 'multi' or 'single' rows
+                    row_deletable=True,  # choose if user can delete a row (True) or not (False)
+                    selected_columns=[],  # ids of columns that user selects
+                    selected_rows=[],  # indices of rows that user selects
+                    page_action="native",  # all data is passed to the table up-front or not ('none')
+                    page_current=0,  # page number that user is on
+                    page_size=6,  # number of rows visible per page
+                    style_cell={  # ensure adequate header width when text is shorter than cell's text
+                        'minWidth': 95, 'maxWidth': 95, 'width': 95
+                    },
+                    style_cell_conditional=[  # align text columns to left. By default they are aligned to right
+                        {
+                            'if': {'column_id': c},
+                            'textAlign': 'left'
+                        } for c in ['country', 'iso_alpha3']
+                    ],
+                    style_data={  # overflow cells' content into multiple lines
+                        'whiteSpace': 'normal',
+                        'height': 'auto'
+                    }
+                ),
+
+                html.Br(),
+                html.Br(),
+                html.Div(id='bar-container'),
+                html.Div(id='choromap-container')
+
+            ])
         ])
     ])
 

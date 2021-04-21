@@ -37,19 +37,19 @@ def register_callbacks(app):
         return table
 
     # Callback and update first data table
-    @app.callback(Output('datatable-birst-category', 'data'),
-                  [Input('my-date-picker-range-birst-category', 'start_date'),
-                   Input('my-date-picker-range-birst-category', 'end_date')])
-    def update_data_1(start_date, end_date):
-        data_1 = update_first_datatable(start_date, end_date, None, 'Birst Category')
-        return data_1
+    # @app.callback(Output('datatable-birst-category', 'data'),
+    #               [Input('my-date-picker-range-birst-category', 'start_date'),
+    #                Input('my-date-picker-range-birst-category', 'end_date')])
+    # def update_data_1(start_date, end_date):
+    #     data_1 = update_first_datatable(start_date, end_date, None, 'Birst Category')
+    #     return data_1
 
     # Callback and update data table columns
-    @app.callback(Output('datatable-birst-category', 'columns'),
-                  [Input('radio-button-birst-category', 'value')])
-    def update_columns(value):
-        if value == 'Complete':
-            column_set = [{"name": i, "id": i, "deletable": True} for i in columns_complete]
-        elif value == 'Condensed':
-            column_set = [{"name": i, "id": i, "deletable": True} for i in columns_condensed]
-        return column_set
+    # @app.callback(Output('datatable-birst-category', 'columns'),
+    #               [Input('radio-button-birst-category', 'value')])
+    # def update_columns(value):
+    #     if value == 'Complete':
+    #         column_set = [{"name": i, "id": i, "deletable": True} for i in columns_complete]
+    #     elif value == 'Condensed':
+    #         column_set = [{"name": i, "id": i, "deletable": True} for i in columns_condensed]
+    #     return column_set
