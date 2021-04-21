@@ -14,7 +14,10 @@ def layout(app):
         data = pd.read_sql(transact.statement, transact.session.bind)
         df = data
 
-        # df['id'] = df['iso_alpha3']
+        dt_columns = df.columns
+
+        conditional_columns = ['country', 'main_sector', 'investors', 'link',]
+
         df.set_index('id', inplace=True, drop=False)
 
     layout = html.Div([
@@ -26,12 +29,8 @@ def layout(app):
             dbc.Row([
                 dash_table.DataTable(
                     id='datatable-interactivity',
-                    columns=[
-                        {"name": i, "id": i, "deletable": True, "selectable": True, "hideable": True}
-                        if i == "iso_alpha3" or i == "year" or i == "id"
-                        else {"name": i, "id": i, "deletable": True, "selectable": True}
-                        for i in df.columns
-                    ],
+                    columns=[{"name": i, "id": i, 'deletable': True} for i in dt_columns]
+                            + [{"name": j, "id": j, 'hidden': 'True'} for j in conditional_columns],
                     data=df.to_dict('records'),  # the contents of the table
                     editable=True,  # allow editing of data inside all cells
                     filter_action="native",  # allow filtering of data by user ('native') or not ('none')
