@@ -2,6 +2,8 @@ import pandas as pd
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
+from datetime import datetime as dt
+from datetime import date, timedelta
 import dash_bootstrap_components as dbc
 
 
@@ -16,18 +18,50 @@ def layout(app):
 
         dt_columns = df.columns
 
-        conditional_columns = ['country', 'main_sector', 'investors', 'link',]
+        df['post_date'] = pd.to_datetime(df['post_date'])
+
+        df['post_date'] = pd.to_datetime(df['post_date'], format='%Y%m%d')
+        # dff = pd.DatetimeIndex(df['post_date']).year
+
+        # current_year = dff['Year'].max()
+
+        conditional_columns = ['country', 'main_sector', 'investors', 'link']
 
         df.set_index('id', inplace=True, drop=False)
 
     layout = html.Div([
-        dbc.Container([
-
-            dbc.Row([
-                dbc.Col(html.H6(children='Visualising data about our companies'), className="mb-4")
-            ]),
-            dbc.Row([
-                dash_table.DataTable(
+        # Header(),
+        # Date Picker
+        # html.Div([
+        #     dcc.DatePickerRange(
+        #         id='my-date-picker-range-birst-category',
+        #         # with_portal=True,
+        #         min_date_allowed=dt(2018, 1, 1),
+        #         max_date_allowed=df['post_date'].max().to_pydatetime(),
+        #         initial_visible_month=dt(current_year, df['Date'].max().to_pydatetime().month, 1),
+        #         start_date=(df['Date'].max() - timedelta(6)).to_pydatetime(),
+        #         end_date=df['Date'].max().to_pydatetime(),
+        #     ),
+        #     html.Div(id='output-container-date-picker-range-birst-category')
+        # ], className="row ", style={'marginTop': 30, 'marginBottom': 15}),
+        # Header Bar
+        html.Div([
+            html.H6(["Company Data"], className="gs-header gs-text-header padded", style={'marginTop': 15})
+        ]),
+        # Radio Button
+        html.Div([
+            dcc.RadioItems(
+                options=[
+                    {'label': 'Condensed Data Table', 'value': 'Condensed'},
+                    {'label': 'Complete Data Table', 'value': 'Complete'},
+                ], value='Condensed',
+                labelStyle={'display': 'inline-block', 'width': '20%', 'margin': 'auto', 'marginTop': 15,
+                            'paddingLeft': 15},
+                id='radio-button-birst-category'
+            )]),
+        # First Data Table
+        html.Div([
+            dash_table.DataTable(
                     id='datatable-interactivity',
                     columns=[{"name": i, "id": i, 'deletable': True} for i in dt_columns]
                             + [{"name": j, "id": j, 'hidden': 'True'} for j in conditional_columns],
@@ -72,6 +106,5 @@ def layout(app):
 
             ])
         ])
-    ])
 
     return layout
