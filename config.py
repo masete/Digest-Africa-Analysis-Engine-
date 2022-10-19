@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 class Config(object):
     SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
     # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:13579246@localhost/digestafricadb'
-    SQLALCHEMY_DATABASE_URI = 'postgres://ymzgbzaoueezqo:7165a1f63de0e295e496302822684853a5914bef93a0319b8f5d6dc5df' \
+    SQLALCHEMY_DATABASE_URI = 'postgresql://ymzgbzaoueezqo:7165a1f63de0e295e496302822684853a5914bef93a0319b8f5d6dc5df' \
                               '459' \
                               '5a9@ec2-54-196-111-158.compute-1.amazonaws.com:5432/d45ndhrceblt7r'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
